@@ -40,8 +40,14 @@ public class App {
     }
 
     private void insertContacts(int count) {
-        Stream<Contact> contacts = contactsGenerator.generateContacts(count);
-        database.insertContacts(contacts);
+        int groupSize = 10000;
+        int numberOfGroups = (int) Math.ceil((double) count / groupSize);
+        System.out.println("Number Of Groups : " + numberOfGroups);
+        for (int i = 0; i < numberOfGroups; i++) {
+            Stream<Contact> contacts = contactsGenerator.generateContacts(groupSize);
+            database.insertContacts(contacts);
+        }
+        System.out.println("Finish to insert " + count + " contacts");
     }
 
     private void lookupContact(int count) {
